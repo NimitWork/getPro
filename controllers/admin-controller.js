@@ -24,18 +24,15 @@ const Permission = require("../model/permission");
 const Role = require("../model/role");
 const Rating = require("../model/rating");
 
-const moment = require("moment")
+const moment = require("moment");
 const fs = require("fs");
 const json = require("../public/json.json");
-
-
-
 
 module.exports.checkRole = async (req, res, next) => {
   if (req.cookies.adminToken === undefined) {
     res.redirect("/getproadmin");
   } else {
-    next()
+    next();
     // let token = req.cookies.adminToken
     // const verifyTokenId = jwt.verify(token, "zxcvbnm");
     // const UserDetails = await User.findById(verifyTokenId.userId);
@@ -44,11 +41,8 @@ module.exports.checkRole = async (req, res, next) => {
     // } else {
     //   res.send("you are not authrized")
     // }
-
   }
 };
-
-
 
 const Storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -97,14 +91,13 @@ module.exports.adminLoginSubmit = async (req, res) => {
         } else {
           httpMsgs.send500(req, res, "you are user so you can't login");
         }
-
       } else {
         httpMsgs.send500(req, res, "your password is inccorect");
       }
     } else {
       httpMsgs.send500(req, res, "your account dose not exist");
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 module.exports.dashboard = (req, res) => {
@@ -117,8 +110,8 @@ module.exports.users = async (req, res) => {
     // console.log( moment(abc.datetime).format(
     //   " DD MMM YYYY, ddd, HH:mm:ss "
     // ))
-    const data = await User.find().sort()
-    let userData = data.reverse()
+    const data = await User.find().sort();
+    let userData = data.reverse();
     res.render("users.ejs", { userData });
   } catch (error) {
     res.status(500).json({
@@ -177,7 +170,7 @@ module.exports.deleteteUser = async (req, res) => {
 
 module.exports.query = async (req, res) => {
   const data = await Query.find().sort();
-  const queryData = data.reverse()
+  const queryData = data.reverse();
   res.render("query.ejs", { queryData });
 };
 module.exports.queryAdd = async (req, res) => {
@@ -207,7 +200,7 @@ module.exports.queryAdd = async (req, res) => {
 module.exports.worksample = async (req, res) => {
   try {
     const data = await Worksample.find().sort();
-    const workSampleData = data.reverse()
+    const workSampleData = data.reverse();
     // for (let i = 0; i < workSampleData.length; i++) {
     //   const element = workSampleData[i].dec;
     //   console.log(element.substr(5,10))
@@ -222,8 +215,8 @@ module.exports.worksample = async (req, res) => {
 
 module.exports.workSampleReadMore = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await Worksample.findById(id)
+    const id = req.params.id;
+    const data = await Worksample.findById(id);
     res.render("workSampleReadMore.ejs", { data });
   } catch (error) {
     res.status(500).json({
@@ -328,7 +321,7 @@ module.exports.deleteworksampleSubmit = async (req, res) => {
 module.exports.authors = async (req, res) => {
   try {
     const data = await Authors.find().sort();
-    const AuthorData = data.reverse()
+    const AuthorData = data.reverse();
     res.render("authors.ejs", { AuthorData });
   } catch (error) {
     res.status(500).json({
@@ -339,8 +332,8 @@ module.exports.authors = async (req, res) => {
 
 module.exports.AuthorReadMore = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await Authors.findById(id)
+    const id = req.params.id;
+    const data = await Authors.findById(id);
     res.render("authorReadMore.ejs", { data });
   } catch (error) {
     res.status(500).json({
@@ -446,7 +439,7 @@ module.exports.deleteAuthor = async (req, res) => {
 module.exports.faqs = async (req, res) => {
   try {
     const data = await Faqs.find().sort();
-    const FaqsData = data.reverse()
+    const FaqsData = data.reverse();
     res.render("faq.ejs", { FaqsData });
   } catch (error) {
     res.status(500).json({
@@ -457,8 +450,8 @@ module.exports.faqs = async (req, res) => {
 
 module.exports.FaqReadMore = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await Faqs.findById(id)
+    const id = req.params.id;
+    const data = await Faqs.findById(id);
     res.render("faqReadMore.ejs", { data });
   } catch (error) {
     res.status(500).json({
@@ -519,7 +512,7 @@ module.exports.updateFaqsSubmit = async (req, res) => {
 module.exports.deleteFaqs = async (req, res) => {
   try {
     const id = req.params.id;
-    await Faqs.findByIdAndDelete(id)
+    await Faqs.findByIdAndDelete(id);
     res.redirect("/faqs");
   } catch (error) {
     res.status(500).json({
@@ -531,7 +524,7 @@ module.exports.deleteFaqs = async (req, res) => {
 module.exports.blog = async (req, res) => {
   try {
     const data = await Blog.find().sort();
-    const BlogData = data.reverse()
+    const BlogData = data.reverse();
     res.render("blog.ejs", { BlogData });
   } catch (error) {
     res.status(500).json({
@@ -542,8 +535,8 @@ module.exports.blog = async (req, res) => {
 
 module.exports.BlogReadMore = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await Blog.findById(id)
+    const id = req.params.id;
+    const data = await Blog.findById(id);
     res.render("blogReadMore.ejs", { data });
   } catch (error) {
     res.status(500).json({
@@ -650,7 +643,7 @@ module.exports.deleteBlog = async (req, res) => {
 module.exports.services = async (req, res) => {
   try {
     const data = await Services.find().sort();
-    const servicesData = data.reverse()
+    const servicesData = data.reverse();
     res.render("services.ejs", { servicesData });
   } catch (error) {
     res.status(500).json({
@@ -661,8 +654,8 @@ module.exports.services = async (req, res) => {
 
 module.exports.servicesReadMore = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await Services.findById(id)
+    const id = req.params.id;
+    const data = await Services.findById(id);
     res.render("servicesReadMore.ejs", { data });
   } catch (error) {
     res.status(500).json({
@@ -738,7 +731,7 @@ module.exports.updateServicesSubmit = async (req, res) => {
 module.exports.deleteServices = async (req, res) => {
   try {
     const id = req.params.id;
-    await Services.findByIdAndDelete(id)
+    await Services.findByIdAndDelete(id);
     res.redirect("/services");
   } catch (error) {
     res.status(500).json({
@@ -746,7 +739,6 @@ module.exports.deleteServices = async (req, res) => {
     });
   }
 };
-
 
 module.exports.logout = async (req, res) => {
   res.clearCookie("adminToken");
@@ -756,7 +748,7 @@ module.exports.logout = async (req, res) => {
 module.exports.coupon = async (req, res) => {
   try {
     const data = await Coupon.find().sort();
-    const CouponData = data.reverse()
+    const CouponData = data.reverse();
     res.render("coupon.ejs", { CouponData });
   } catch (error) {
     res.status(500).json({
@@ -781,7 +773,7 @@ module.exports.addCouponSubmit = async (req, res) => {
     const couponType = req.body.couponType;
     const couponAmount = req.body.couponAmount;
     const couponStatus = req.body.couponStatus;
-    console.log(req.body)
+    console.log(req.body);
     const CouponData = await Coupon.findOne({ couponName: couponName });
     if (CouponData == null) {
       const couponData = new Coupon({
@@ -855,7 +847,7 @@ module.exports.deleteCoupon = async (req, res) => {
 module.exports.career = async (req, res) => {
   try {
     const data = await Career.find().sort();
-    const CareerData = data.reverse()
+    const CareerData = data.reverse();
     res.render("career.ejs", { CareerData });
   } catch (error) {
     res.status(500).json({
@@ -950,7 +942,7 @@ module.exports.adminWalletTransactionHistory = async (req, res) => {
 module.exports.adminOrderHistory = async (req, res) => {
   try {
     const data = await Order.find().sort();
-    const OrderHistory = data.reverse()
+    const OrderHistory = data.reverse();
     res.render("orderHistory.ejs", { OrderHistory });
   } catch (error) {
     res.status(500).json({
@@ -1003,7 +995,7 @@ module.exports.findupdatemessagesubmit = async (req, res) => {
 module.exports.extraCredit = async (req, res) => {
   try {
     let data = await ExtraCredit.find().sort();
-    const extraCreditData = data.reverse()
+    const extraCreditData = data.reverse();
     res.render("extraCredit.ejs", { extraCreditData });
   } catch (error) {
     res.status(500).json({
@@ -1084,7 +1076,7 @@ module.exports.getOrderDetailsInChat = async (req, res) => {
 module.exports.contentType = async (req, res) => {
   try {
     const data = await ContentType.find().sort();
-    const contentTypeData = data.reverse()
+    const contentTypeData = data.reverse();
     res.render("content-type.ejs", { contentTypeData });
   } catch (error) {
     res.status(500).json({
@@ -1118,8 +1110,8 @@ module.exports.AddContentTypeSubmit = async (req, res) => {
 
 module.exports.updateContentType = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await ContentType.findById(id)
+    const id = req.params.id;
+    const data = await ContentType.findById(id);
     res.render("edit-content-type.ejs", { data });
   } catch (error) {
     res.status(500).json({
@@ -1130,9 +1122,11 @@ module.exports.updateContentType = async (req, res) => {
 
 module.exports.updateContentTypeSubmit = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await ContentType.findByIdAndUpdate(id, { contentType: req.body.contentType })
-    res.redirect("/contentType")
+    const id = req.params.id;
+    const data = await ContentType.findByIdAndUpdate(id, {
+      contentType: req.body.contentType,
+    });
+    res.redirect("/contentType");
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1140,11 +1134,10 @@ module.exports.updateContentTypeSubmit = async (req, res) => {
   }
 };
 
-
 module.exports.DeleteContentType = async (req, res) => {
   try {
     const Contentid = req.params.id;
-    console.log(Contentid)
+    console.log(Contentid);
     const contentTypeData = await ContentType.findByIdAndDelete(Contentid);
     res.redirect("/contentType");
   } catch (error) {
@@ -1157,7 +1150,7 @@ module.exports.DeleteContentType = async (req, res) => {
 module.exports.expertLevel = async (req, res) => {
   try {
     const data = await ExpertLevel.find().sort();
-    const ExpertLevelData = data.reverse()
+    const ExpertLevelData = data.reverse();
     res.render("expert-level.ejs", { ExpertLevelData });
   } catch (error) {
     res.status(500).json({
@@ -1191,8 +1184,8 @@ module.exports.AddExpertLevelSubmit = async (req, res) => {
 
 module.exports.updateExpertLevel = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await ExpertLevel.findById(id)
+    const id = req.params.id;
+    const data = await ExpertLevel.findById(id);
     res.render("edit-expert-level.ejs", { data });
   } catch (error) {
     res.status(500).json({
@@ -1203,9 +1196,11 @@ module.exports.updateExpertLevel = async (req, res) => {
 
 module.exports.updateExpertLevelSubmit = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await ExpertLevel.findByIdAndUpdate(id, { expertLevel: req.body.expertLevel })
-    res.redirect("/expertLevel")
+    const id = req.params.id;
+    const data = await ExpertLevel.findByIdAndUpdate(id, {
+      expertLevel: req.body.expertLevel,
+    });
+    res.redirect("/expertLevel");
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1215,8 +1210,8 @@ module.exports.updateExpertLevelSubmit = async (req, res) => {
 
 module.exports.DeleteExpertLevelSubmit = async (req, res) => {
   try {
-    const id = req.params.id
-    const expertlevelData = await ExpertLevel.findByIdAndDelete(id)
+    const id = req.params.id;
+    const expertlevelData = await ExpertLevel.findByIdAndDelete(id);
     res.redirect("/expertLevel");
   } catch (error) {
     res.status(500).json({
@@ -1225,11 +1220,9 @@ module.exports.DeleteExpertLevelSubmit = async (req, res) => {
   }
 };
 
-
 module.exports.AddPermission = async (req, res) => {
   try {
-
-    res.render("permission-add.ejs")
+    res.render("permission-add.ejs");
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1238,11 +1231,10 @@ module.exports.AddPermission = async (req, res) => {
 };
 module.exports.AddPermissionSubmit = async (req, res) => {
   try {
-
-    const permission = req.body.permission
-    const permissionData = new Permission({ permission: permission })
-    await permissionData.save()
-    res.redirect("/dashboard")
+    const permission = req.body.permission;
+    const permissionData = new Permission({ permission: permission });
+    await permissionData.save();
+    res.redirect("/dashboard");
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1250,12 +1242,11 @@ module.exports.AddPermissionSubmit = async (req, res) => {
   }
 };
 
-
 module.exports.role = async (req, res) => {
   try {
-    const roleData = await Role.find().populate("permissions")
-    console.log(roleData)
-    res.render("role.ejs", { roleData })
+    const roleData = await Role.find().populate("permissions");
+    console.log(roleData);
+    res.render("role.ejs", { roleData });
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1265,7 +1256,7 @@ module.exports.role = async (req, res) => {
 
 module.exports.addRole = async (req, res) => {
   try {
-    res.render("role-add.ejs", { PermissionData: json.pages })
+    res.render("role-add.ejs", { PermissionData: json.pages });
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1275,13 +1266,13 @@ module.exports.addRole = async (req, res) => {
 
 module.exports.addRoleSubmit = async (req, res) => {
   try {
-    console.log(req.body)
-    const role = req.body.role
-    const permission = req.body.permission
+    console.log(req.body);
+    const role = req.body.role;
+    const permission = req.body.permission;
 
-    const RoleData = new Role({ role: role, permissions: permission })
-    await RoleData.save()
-    res.redirect("/role")
+    const RoleData = new Role({ role: role, permissions: permission });
+    await RoleData.save();
+    res.redirect("/role");
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1291,26 +1282,28 @@ module.exports.addRoleSubmit = async (req, res) => {
 
 module.exports.editPermissions = async (req, res) => {
   try {
-    const roleData = await Role.findById(req.params.id).populate("permissions")
-    console.log(roleData)
-    res.render("role-edit.ejs", { PermissionData: json.pages, roleData: roleData })
-
+    const roleData = await Role.findById(req.params.id).populate("permissions");
+    console.log(roleData);
+    res.render("role-edit.ejs", {
+      PermissionData: json.pages,
+      roleData: roleData,
+    });
   } catch (error) {
     res.status(500).json({
       error: error.message,
     });
   }
 };
-
 
 module.exports.editPermissionsSubmit = async (req, res) => {
   try {
-    console.log("===================", req.body, req.params.id)
-    const id = req.params.id
-    const newPermissions = req.body.permissions
-    const UpdateNewPermission = await Role.findByIdAndUpdate(id, { permissions: newPermissions })
-    res.redirect("/role")
-
+    console.log("===================", req.body, req.params.id);
+    const id = req.params.id;
+    const newPermissions = req.body.permissions;
+    const UpdateNewPermission = await Role.findByIdAndUpdate(id, {
+      permissions: newPermissions,
+    });
+    res.redirect("/role");
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1318,14 +1311,14 @@ module.exports.editPermissionsSubmit = async (req, res) => {
   }
 };
 
-
-
 module.exports.SubAdmin = async (req, res) => {
   try {
-    const adminData = await User.find({ type: "admin" }).populate("role")
-    console.log(adminData)
-    const filterAdmin = await adminData.filter((item, index) => item.email !== "getproadmin000@gmail.com")
-    res.render("subAdmin.ejs", { filterAdmin })
+    const adminData = await User.find({ type: "admin" }).populate("role");
+    console.log(adminData);
+    const filterAdmin = await adminData.filter(
+      (item, index) => item.email !== "getproadmin000@gmail.com"
+    );
+    res.render("subAdmin.ejs", { filterAdmin });
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1335,9 +1328,9 @@ module.exports.SubAdmin = async (req, res) => {
 
 module.exports.AddSubAdmin = async (req, res) => {
   try {
-    const roleData = await Role.find()
-    console.log(roleData)
-    res.render("add-sub-admin.ejs", { roleData })
+    const roleData = await Role.find();
+    console.log(roleData);
+    res.render("add-sub-admin.ejs", { roleData });
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1347,10 +1340,10 @@ module.exports.AddSubAdmin = async (req, res) => {
 
 module.exports.AddSubAdminSubmit = async (req, res) => {
   try {
-    const username = req.body.username
-    const email = req.body.email
-    const password = req.body.password
-    const role = req.body.role
+    const username = req.body.username;
+    const email = req.body.email;
+    const password = req.body.password;
+    const role = req.body.role;
     const bycrptPassword = await bcrypt.hash(password, 10);
 
     const userData = new User({
@@ -1362,7 +1355,7 @@ module.exports.AddSubAdminSubmit = async (req, res) => {
       type: "admin",
     });
     await userData.save();
-    res.redirect("/subAdmin")
+    res.redirect("/subAdmin");
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1370,14 +1363,12 @@ module.exports.AddSubAdminSubmit = async (req, res) => {
   }
 };
 
-
-
 module.exports.reviews = async (req, res) => {
   try {
-    const data = await Rating.find().sort()
-    const reviewData = data.reverse()
-    console.log(reviewData)
-    res.render("review.ejs", { reviewData })
+    const data = await Rating.find().sort();
+    const reviewData = data.reverse();
+    console.log(reviewData);
+    res.render("review.ejs", { reviewData });
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1387,10 +1378,9 @@ module.exports.reviews = async (req, res) => {
 
 module.exports.AcceptReviews = async (req, res) => {
   try {
-    const id = req.params.id
-    const reviewUpdate = await Rating.findByIdAndUpdate(id, { status: "read" })
-    res.redirect("/reviews")
-
+    const id = req.params.id;
+    const reviewUpdate = await Rating.findByIdAndUpdate(id, { status: "read" });
+    res.redirect("/reviews");
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1400,10 +1390,9 @@ module.exports.AcceptReviews = async (req, res) => {
 
 module.exports.reviewDelete = async (req, res) => {
   try {
-    const id = req.params.id
-    const reviewUpdate = await Rating.findByIdAndDelete(id)
-    res.redirect("/reviews")
-
+    const id = req.params.id;
+    const reviewUpdate = await Rating.findByIdAndDelete(id);
+    res.redirect("/reviews");
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1413,10 +1402,9 @@ module.exports.reviewDelete = async (req, res) => {
 
 module.exports.reviewReadMore = async (req, res) => {
   try {
-    const id = req.params.id
-    const data = await Rating.findById(id)
-    res.render("reviewReadMore.ejs", { data })
-
+    const id = req.params.id;
+    const data = await Rating.findById(id);
+    res.render("reviewReadMore.ejs", { data });
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -1426,8 +1414,7 @@ module.exports.reviewReadMore = async (req, res) => {
 
 module.exports.pageNotFound = async (req, res) => {
   try {
-   res.render("page-not-found")
-
+    res.render("page-not-found");
   } catch (error) {
     res.status(500).json({
       error: error.message,

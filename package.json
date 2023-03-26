@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node init && nodemon app.js",
     "client": "cd ../reactfrontends && npm start",
     "server": "cd ../getPro && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "node init && concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",

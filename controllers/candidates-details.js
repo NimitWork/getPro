@@ -1,10 +1,24 @@
 const User = require("../model/user");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+
+const Storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    console.log("ffffff", file);
+    callback(null, "./public/image");
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + Date.now() + file.originalname);
+  },
+});
+
+module.exports.upload = multer({ storage: Storage });
 
 module.exports.InsertCandidateDetails = async (req, res) => {
   try {
+    console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", req.body);
     const token = req.headers.authorization;
-    console.log("reqbody", req.body);
+    console.log("token", token);
     if (token && req.body) {
       const verifyTokenId = jwt.verify(token, "zxcvbnm");
       const UserDetails = await User.findById(verifyTokenId.userId);
@@ -27,26 +41,50 @@ module.exports.InsertCandidateDetails = async (req, res) => {
       const linkedin = req.body.linkedin;
       const twitter = req.body.twitter;
       if (UserDetails.accountType === "candidate") {
-        const userData = await User.findByIdAndUpdate(UserDetails._id, {
-          websiteUrl: websiteUrl,
-          qualification: qualification,
-          language: language,
-          jobCategory: jobCategory,
-          experience: experience,
-          currentSalary: currentSalary,
-          expectedSalary: expectedSalary,
-          age: age,
-          country: country,
-          city: city,
-          pincode: pincode,
-          address: address,
-          description: description,
-          facebook: facebook,
-          linkedin: linkedin,
-          twitter: twitter,
-          profileStatus: "complete",
-        });
-        res.status(200).json({ message: "successfuly created user details" });
+        if (req.file) {
+          const userData = await User.findByIdAndUpdate(UserDetails._id, {
+            websiteUrl: websiteUrl,
+            qualification: qualification,
+            language: language,
+            jobCategory: jobCategory,
+            experience: experience,
+            currentSalary: currentSalary,
+            expectedSalary: expectedSalary,
+            age: age,
+            country: country,
+            city: city,
+            pincode: pincode,
+            address: address,
+            description: description,
+            facebook: facebook,
+            linkedin: linkedin,
+            twitter: twitter,
+            profileStatus: "complete",
+            image: req.file.filename,
+          });
+          res.status(200).json({ message: "successfuly created user details" });
+        } else {
+          const userData = await User.findByIdAndUpdate(UserDetails._id, {
+            websiteUrl: websiteUrl,
+            qualification: qualification,
+            language: language,
+            jobCategory: jobCategory,
+            experience: experience,
+            currentSalary: currentSalary,
+            expectedSalary: expectedSalary,
+            age: age,
+            country: country,
+            city: city,
+            pincode: pincode,
+            address: address,
+            description: description,
+            facebook: facebook,
+            linkedin: linkedin,
+            twitter: twitter,
+            profileStatus: "complete",
+          });
+          res.status(200).json({ message: "successfuly created user details" });
+        }
       } else {
         res.status(200).json({ message: "you are not candidate" });
       }
