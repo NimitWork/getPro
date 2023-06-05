@@ -98,12 +98,24 @@ module.exports.rechargeWallet = async (req, res) => {
           upperCaseAlphabets: false,
           specialChars: false,
         });
+        // console.log("LB-101 userDetails", UserDetails);
 
-        let username = UserDetails.name || '';
+        let username = UserDetails.username || '';
         let email = UserDetails.email || '';
+        let cc = '';
+
+        //  SEND EMAIL FOR ADMIN
+        subject = `Payment made for Credits`;
+        emailContent = `<div style="width:100%;padding:14px;margin: auto;text-align:left">
+                        <h2 style="margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:arial, helvetica, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#0B5394"><strong>Hi Admin,</strong></h2>
+                        <p style="display:block;box-sizing:border-box;">
+                        ${email} from ${UserDetails.location || ''} has made payment of ${wallet} USD for depositing Credits through stripe.. 
+                        </p>
+                        </div>`;
+        adminRegisterTemplate = await ejs.renderFile(__dirname + '/../configs/email_template.html', emailContent);
+        await TriggerNotification.triggerEMAIL(process.env.ADMIN_EMAIL, cc, subject, null, adminRegisterTemplate);
 
         //  EMAIL SENT TO USER
-        let cc = '';
         subject = `Payment was Successful`;
         emailContent = `<div style="width:100%;padding:14px;margin: auto;text-align:left">
         <h2 style="margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:arial, helvetica, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#0B5394"><strong>Hi ${username},</strong></h2>
